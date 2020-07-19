@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserRepository {
+public class UserRepository extends AccountRepository {
     public static Map<String, User> userMap = new HashMap<>();
     public static List<User> users = new ArrayList<>();
 }
