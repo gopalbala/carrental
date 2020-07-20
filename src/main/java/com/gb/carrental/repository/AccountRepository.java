@@ -1,4 +1,5 @@
 package com.gb.carrental.repository;
 
-public class AccountRepository {
+public abstract class AccountRepository {
+    public abstract void resetPassword(String userId, String password);
 }

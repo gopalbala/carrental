@@ -10,4 +10,9 @@ import java.util.Map;
 public class AdminRepository extends AccountRepository {
     public static Map<String, Admin> adminMap = new HashMap<>();
     public static List<Admin> admins = new ArrayList<>();
+
+    @Override
+    public void resetPassword(String userId, String password) {
+
+    }
 }

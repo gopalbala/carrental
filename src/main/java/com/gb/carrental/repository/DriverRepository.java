@@ -10,4 +10,9 @@ import java.util.Map;
 public class DriverRepository extends AccountRepository {
     public static Map<String, Driver> driverMap = new HashMap<>();
     public static List<Driver> drivers = new ArrayList<>();
+
+    @Override
+    public void resetPassword(String userId, String password) {
+
+    }
 }
