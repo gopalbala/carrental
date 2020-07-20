@@ -25,5 +25,6 @@ public class VehicleReservation {
     private String invoiceId;
     private List<Driver> drivers;
     private List<VehicleAddon> vehicleAddons;
+    private List<AddonService> addonServices;
     private List<Equipment> equipments;
 }

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class VehicleAddon {
+public abstract class AddonService {
     private String id;
     private String name;
     private String description;
