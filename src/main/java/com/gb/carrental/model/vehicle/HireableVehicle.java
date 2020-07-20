@@ -14,6 +14,7 @@ public abstract class HireableVehicle {
     private int yearOfManufacture;
     private double mileage;
     private int numberOfSeats;
-    private VehicleType vehicleType;
+    private VehicleCategory vehicleCategory;
     private VehicleStatus vehicleStatus;
+    private VehicleType vehicleType;
 }

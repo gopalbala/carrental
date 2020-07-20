@@ -1,6 +1,12 @@
 package com.gb.carrental.model.vehicle;
 
 public enum VehicleType {
-    PASSENGER,
-    COMMERCIAL
+    HATCHBACK,
+    SUV,
+    SEDAN,
+    THREEWHEELER,
+    TRUCK,
+    VAN,
+    MOTORCYCLE,
+    BICYCLE
 }
