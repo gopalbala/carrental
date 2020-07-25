@@ -1,5 +1,7 @@
 package com.gb.carrental.service;
 
-public class ReservationService {
+import com.gb.carrental.model.reservation.VehicleReservation;
 
+public interface ReservationService {
+    VehicleReservation reserveVehicle(VehicleReservation vehicleReservation);
 }
