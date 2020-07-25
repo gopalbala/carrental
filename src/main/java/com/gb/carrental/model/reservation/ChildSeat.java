@@ -1,4 +1,4 @@
 package com.gb.carrental.model.reservation;
 
-public class Insurance extends AddonService {
+public class ChildSeat extends VehicleAddon {
 }
