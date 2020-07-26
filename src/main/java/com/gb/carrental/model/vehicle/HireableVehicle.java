@@ -1,5 +1,6 @@
 package com.gb.carrental.model.vehicle;
 
+import com.gb.carrental.model.common.Coordinates;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,4 +18,6 @@ public abstract class HireableVehicle {
     private VehicleCategory vehicleCategory;
     private VehicleStatus vehicleStatus;
     private VehicleType vehicleType;
+    private VehicleLocation parkedLocation;
+    private Coordinates currentLocation;
 }
