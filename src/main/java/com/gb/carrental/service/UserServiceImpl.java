@@ -5,6 +5,7 @@ import com.gb.carrental.exceptions.ReservationNotFoundException;
 import com.gb.carrental.exceptions.VehicleBookedException;
 import com.gb.carrental.model.reservation.ReservationStatus;
 import com.gb.carrental.model.reservation.VehicleReservation;
+import com.gb.carrental.model.reservation.VehicleReservationType;
 import com.gb.carrental.model.vehicle.HireableVehicle;
 import com.gb.carrental.model.vehicle.VehicleLocation;
 import com.gb.carrental.model.vehicle.VehicleStatus;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
             throw new VehicleBookedException("Vehicle booked. Try another vehicle.");
         }
 
-        return buildSelfPickUpReservation(barcode, userId);
+        return buildQuickReservation(barcode, userId);
     }
 
     @Override
@@ -87,7 +88,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.getHiredVehicles(userId, startDate, endDate);
     }
 
-    private VehicleReservation buildSelfPickUpReservation(String barcode, String userId) {
+    private VehicleReservation buildQuickReservation(String barcode, String userId) {
 
         HireableVehicle vehicle = VehicleRepository.vehicleMap.get(barcode);
         vehicle.setVehicleStatus(VehicleStatus.BOOKED);
@@ -101,6 +102,7 @@ public class UserServiceImpl implements UserService {
         vehicleReservation.setPickupLocation(
                 vehicle.getParkedLocation().getAddress());
         vehicleReservation.setVehicle(vehicle);
+        vehicleReservation.setVehicleReservationType(VehicleReservationType.HOURLY);
         return vehicleReservation;
     }
 
