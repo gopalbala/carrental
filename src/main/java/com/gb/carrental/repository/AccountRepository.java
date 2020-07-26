@@ -1,5 +1,10 @@
 package com.gb.carrental.repository;
 
-public abstract class AccountRepository {
-    public abstract void resetPassword(String userId, String password);
+import com.gb.carrental.exceptions.AccountDoesNotExistsException;
+import com.gb.carrental.model.account.Account;
+
+public interface AccountRepository {
+    Account createAccount(Account account);
+
+    void resetPassword(String userId, String password) throws AccountDoesNotExistsException;
 }

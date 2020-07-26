@@ -1,10 +1,6 @@
-package com.gb.carrental.service;
+package com.gb.carrental.repository;
 
 import com.gb.carrental.model.account.AccountType;
-import com.gb.carrental.repository.AccountRepository;
-import com.gb.carrental.repository.AdminRepository;
-import com.gb.carrental.repository.DriverRepository;
-import com.gb.carrental.repository.UserRepository;
 
 public class AccountRepositoryFactory {
     public static AccountRepository getAccountRepository(AccountType accountType) {
