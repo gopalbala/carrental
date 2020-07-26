@@ -1,10 +1,12 @@
 package com.gb.carrental.service;
 
 import com.gb.carrental.exceptions.InvalidVehicleIdException;
+import com.gb.carrental.exceptions.ReservationNotFoundException;
 import com.gb.carrental.exceptions.VehicleBookedException;
 import com.gb.carrental.model.reservation.ReservationStatus;
 import com.gb.carrental.model.reservation.VehicleReservation;
 import com.gb.carrental.model.vehicle.HireableVehicle;
+import com.gb.carrental.model.vehicle.VehicleLocation;
 import com.gb.carrental.model.vehicle.VehicleStatus;
 import com.gb.carrental.repository.UserRepository;
 import com.gb.carrental.repository.VehicleRepository;
@@ -54,8 +56,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void returnVehicle(String userId, HireableVehicle hireableVehicle) {
+    public void returnVehicle(String reservationId,
+                              VehicleLocation vehicleLocation) throws ReservationNotFoundException {
 
+        VehicleReservation vehicleReservation = vehicleReservationRepository
+                .getVehicleReservation(reservationId);
+        if (vehicleReservation == null) {
+            throw new ReservationNotFoundException
+                    ("Could not find reservation with id " + reservationId);
+        }
+
+        HireableVehicle vehicle = vehicleReservation.getVehicle();
+        vehicle.setParkedLocation(vehicleLocation);
+        vehicle.setVehicleStatus(VehicleStatus.AVAILALBE);
+        vehicleReservation.setStatus(ReservationStatus.COMPLETED);
+        vehicleReservation.setDropLocation(vehicleLocation.getAddress());
+        vehicleReservation.setReturnDate(LocalDateTime.now());
+        vehicleReservation.setEndMileage(vehicle.getMileage());
     }
 
     @Override
@@ -80,6 +97,7 @@ public class UserServiceImpl implements UserService {
         vehicleReservation.setFromDate(LocalDateTime.now());
         vehicleReservation.setDueDate(LocalDateTime.now().plusHours(2));
         vehicleReservation.setStatus(ReservationStatus.ACTIVE);
+        vehicleReservation.setStartMileage(vehicle.getMileage());
         vehicleReservation.setPickupLocation(
                 vehicle.getParkedLocation().getAddress());
         vehicleReservation.setVehicle(vehicle);
