@@ -16,15 +16,17 @@ public class VehicleReservation {
     private String usrId;
     private LocalDateTime reservationDate;
     private ReservationStatus status;
+    private LocalDateTime fromDate;
     private LocalDateTime dueDate;
     private LocalDateTime returnDate;
     private Address pickupLocation;
     private Address dropLocation;
-
+    private double startMileage;
+    private double endMileage;
     private HireableVehicle vehicle;
     private String invoiceId;
     private List<Driver> drivers;
     private List<VehicleAddon> vehicleAddons;
     private List<AddonService> addonServices;
-    private List<Equipment> equipments;
+    private VehicleReservationType vehicleReservationType;
 }

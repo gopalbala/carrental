@@ -7,5 +7,10 @@ import lombok.Setter;
 @Setter
 public class Invoice {
     private String invoiceId;
-    private double cost;
+    private String userId;
+    private double usageCharges;
+    private double addonCost;
+    private double addonServicesCost;
+    private double taxes;
+    private double total;
 }
