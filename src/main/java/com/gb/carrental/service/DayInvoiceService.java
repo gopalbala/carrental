@@ -21,6 +21,7 @@ public class DayInvoiceService implements InvoiceService {
     private Invoice buildInvoice(VehicleReservation vehicleReservation) {
         Invoice invoice = new Invoice();
         invoice.setInvoiceId(UUID.randomUUID().toString());
+        invoice.setReservationId(vehicleReservation.getReservationId());
         User user = UserRepository.userMap.get(vehicleReservation.getUsrId());
         invoice.setUserId(user.getEmail());
         Duration rentedDuration =
