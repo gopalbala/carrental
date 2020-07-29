@@ -14,12 +14,13 @@ import java.util.UUID;
 public class MonthInvoiceService implements InvoiceService {
     @Override
     public Invoice computeInvoice(VehicleReservation vehicleReservation) {
-        return null;
+        return buildInvoice(vehicleReservation);
     }
 
     private Invoice buildInvoice(VehicleReservation vehicleReservation) {
         Invoice invoice = new Invoice();
         invoice.setInvoiceId(UUID.randomUUID().toString());
+        invoice.setReservationId(vehicleReservation.getReservationId());
         User user = UserRepository.userMap.get(vehicleReservation.getUsrId());
         invoice.setUserId(user.getEmail());
         Duration rentedDuration =
