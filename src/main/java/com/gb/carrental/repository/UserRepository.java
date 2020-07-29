@@ -36,7 +36,9 @@ public class UserRepository implements AccountRepository {
                         vehicleReservation.getUsrId().equalsIgnoreCase(userId))
                         .collect(Collectors.toList());
         return vehicleReservationList.stream()
-                .map(vehicleReservation -> vehicleReservation.getVehicle())
+                .map(vehicleReservation ->
+                        VehicleRepository.vehicleMap
+                                .get(vehicleReservation.getAccocatedVehicleId()))
                 .collect(Collectors.toList());
     }
 
@@ -50,7 +52,8 @@ public class UserRepository implements AccountRepository {
                                 vehicleReservation.getReservationDate().isBefore(endDate))
                         .collect(Collectors.toList());
         return vehicleReservationList.stream()
-                .map(vehicleReservation -> vehicleReservation.getVehicle())
+                .map(vehicleReservation -> VehicleRepository.vehicleMap
+                        .get(vehicleReservation.getAccocatedVehicleId()))
                 .collect(Collectors.toList());
     }
 

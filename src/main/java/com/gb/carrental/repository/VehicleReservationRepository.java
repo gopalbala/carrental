@@ -22,7 +22,7 @@ public class VehicleReservationRepository {
 
     public List<VehicleReservation> getVehicleReservations(VehicleType vehicleType) {
         return vehicleReservations.stream().filter(vehicleReservation ->
-                vehicleReservation.getVehicle().getVehicleType() == vehicleType)
+                vehicleReservation.getVehicleType() == vehicleType)
                 .collect(Collectors.toList());
     }
 
