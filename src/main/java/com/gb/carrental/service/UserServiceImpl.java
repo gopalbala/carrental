@@ -3,9 +3,8 @@ package com.gb.carrental.service;
 import com.gb.carrental.exceptions.InvalidVehicleIdException;
 import com.gb.carrental.exceptions.ReservationNotFoundException;
 import com.gb.carrental.exceptions.VehicleBookedException;
-import com.gb.carrental.model.reservation.ReservationStatus;
-import com.gb.carrental.model.reservation.VehicleReservation;
-import com.gb.carrental.model.reservation.VehicleReservationType;
+import com.gb.carrental.model.common.NotificationStatus;
+import com.gb.carrental.model.reservation.*;
 import com.gb.carrental.model.vehicle.HireableVehicle;
 import com.gb.carrental.model.vehicle.VehicleLocation;
 import com.gb.carrental.model.vehicle.VehicleStatus;
@@ -22,14 +21,15 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository = new UserRepository();
     VehicleReservationRepository vehicleReservationRepository = new
             VehicleReservationRepository();
-    VehicleRepository vehicleRepository = new VehicleRepository();
 
     VehicleReservationService vehicleReservationService = new
             VehicleReservationServiceImpl();
+    InvoiceService invoiceService = new InvoiceServiceImpl();
+    InvoiceNotificationService invoiceNotificationService =
+            new InvoiceNotificationServiceImpl();
 
     @Override
-    public VehicleReservation reserve(String barcode, String userId) throws InvalidVehicleIdException, VehicleBookedException {
-        VehicleReservation vehicleReservation = new VehicleReservation();
+    public VehicleReservation scanToReserve(String barcode, String userId) throws InvalidVehicleIdException, VehicleBookedException {
         if (VehicleRepository.vehicleMap.get(barcode) == null) {
             throw new InvalidVehicleIdException("Invalid vehicle id.");
         }
@@ -37,23 +37,40 @@ public class UserServiceImpl implements UserService {
                 LocalDateTime.now(), LocalDateTime.now().plusHours(2))) {
             throw new VehicleBookedException("Vehicle booked. Try another vehicle.");
         }
-
         return buildQuickReservation(barcode, userId);
     }
 
     @Override
-    public VehicleReservation reserve(VehicleReservation vehicleReservation) {
-        return null;
+    public VehicleReservation remoteReserve(VehicleReservation vehicleReservation) {
+        VehicleReservationRepository.vehicleReservationMap
+                .put(vehicleReservation.getReservationId(), vehicleReservation);
+        vehicleReservation.getVehicle().setVehicleStatus(VehicleStatus.BOOKED);
+        Invoice invoice = invoiceService.computeInvoice(vehicleReservation);
+        invoiceNotificationService.notifyUser(buildInvoiceNotification(invoice));
+        return vehicleReservation;
     }
 
     @Override
     public VehicleReservation cancel(String reservationId) {
-        return null;
+        VehicleReservation vehicleReservation = VehicleReservationRepository
+                .vehicleReservationMap.get(reservationId);
+        vehicleReservation.setStatus(ReservationStatus.CANCELLED);
+        vehicleReservation.getVehicle().setVehicleStatus(VehicleStatus.AVAILALBE);
+        vehicleReservation.setDropLocation(vehicleReservation.getVehicle().
+                getParkedLocation().getAddress());
+        vehicleReservation.setReturnDate(LocalDateTime.now());
+        vehicleReservation.setEndMileage(vehicleReservation.getVehicle().getMileage());
+        Invoice invoice = invoiceService.computeInvoice(vehicleReservation);
+        invoiceNotificationService.notifyUser(buildInvoiceNotification(invoice));
+        return vehicleReservation;
     }
 
     @Override
     public HireableVehicle pickupVehicle(VehicleReservation vehicleReservation) {
-        return null;
+        vehicleReservation.setStartMileage(vehicleReservation.getVehicle().getMileage());
+        vehicleReservation.setStatus(ReservationStatus.ACTIVE);
+        vehicleReservation.getVehicle().setVehicleStatus(VehicleStatus.BOOKED);
+        return vehicleReservation.getVehicle();
     }
 
     @Override
@@ -74,11 +91,12 @@ public class UserServiceImpl implements UserService {
         vehicleReservation.setDropLocation(vehicleLocation.getAddress());
         vehicleReservation.setReturnDate(LocalDateTime.now());
         vehicleReservation.setEndMileage(vehicle.getMileage());
+        Invoice invoice = invoiceService.computeInvoice(vehicleReservation);
+        invoiceNotificationService.notifyUser(buildInvoiceNotification(invoice));
     }
 
     @Override
     public List<HireableVehicle> getHiredVehicles(String userId) {
-
         return userRepository.getHiredVehicles(userId);
     }
 
@@ -104,6 +122,15 @@ public class UserServiceImpl implements UserService {
         vehicleReservation.setVehicle(vehicle);
         vehicleReservation.setVehicleReservationType(VehicleReservationType.HOURLY);
         return vehicleReservation;
+    }
+
+    private InvoiceNotification buildInvoiceNotification(Invoice invoice) {
+        InvoiceNotification invoiceNotification = new InvoiceNotification();
+        invoiceNotification.setReservationId(invoice.getReservationId());
+        invoiceNotification.setUserId(invoice.getUserId());
+        invoiceNotification.setCreatedDate(LocalDateTime.now());
+        invoiceNotification.setNotificationStatus(NotificationStatus.PENDING);
+        return invoiceNotification;
     }
 
 }

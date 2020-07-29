@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface UserService {
-    VehicleReservation reserve(String barcode, String userId) throws InvalidVehicleIdException, VehicleBookedException;
+    VehicleReservation scanToReserve(String barcode, String userId) throws InvalidVehicleIdException, VehicleBookedException;
 
-    VehicleReservation reserve(VehicleReservation vehicleReservation);
+    VehicleReservation remoteReserve(VehicleReservation vehicleReservation);
 
     VehicleReservation cancel(String reservationId);
 
