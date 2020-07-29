@@ -2,7 +2,7 @@ package com.gb.carrental.model.reservation;
 
 import com.gb.carrental.model.account.Driver;
 import com.gb.carrental.model.common.Address;
-import com.gb.carrental.model.vehicle.HireableVehicle;
+import com.gb.carrental.model.vehicle.VehicleType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +23,9 @@ public class VehicleReservation {
     private Address dropLocation;
     private double startMileage;
     private double endMileage;
-    private HireableVehicle vehicle;
+    //    private HireableVehicle vehicle;
+    private String accocatedVehicleId;
+    private VehicleType vehicleType;
     private String invoiceId;
     private List<Driver> drivers;
     private List<VehicleAddon> vehicleAddons;

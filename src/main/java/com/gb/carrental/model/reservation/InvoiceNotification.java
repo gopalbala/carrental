@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class InvoiceNotification {
-    private String invoiceId;
+    private String reservationId;
     private String userId;
     private LocalDateTime createdDate;
     private NotificationStatus notificationStatus;

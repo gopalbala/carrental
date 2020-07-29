@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ReservationReminder {
     private LocalDateTime reservationDate;
+    private String reservationId;
     private String userId;
     private LocalDateTime createdDate;
     private NotificationStatus notificationStatus;
