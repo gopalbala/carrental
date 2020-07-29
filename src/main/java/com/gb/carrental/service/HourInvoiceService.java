@@ -5,13 +5,13 @@ import com.gb.carrental.model.reservation.Invoice;
 import com.gb.carrental.model.reservation.VehicleFixedCosts;
 import com.gb.carrental.model.reservation.VehicleHourlyCosts;
 import com.gb.carrental.model.reservation.VehicleReservation;
-import com.gb.carrental.model.vehicle.HireableVehicle;
 import com.gb.carrental.repository.UserRepository;
 
 import java.time.Duration;
 import java.util.UUID;
 
-public class AdhocInvoiceService implements InvoiceService {
+public class HourInvoiceService implements InvoiceService {
+
     @Override
     public Invoice computeInvoice(VehicleReservation vehicleReservation) {
         return buildInvoice(vehicleReservation);
@@ -20,6 +20,7 @@ public class AdhocInvoiceService implements InvoiceService {
     private Invoice buildInvoice(VehicleReservation vehicleReservation) {
         Invoice invoice = new Invoice();
         invoice.setInvoiceId(UUID.randomUUID().toString());
+        invoice.setReservationId(vehicleReservation.getReservationId());
         User user = UserRepository.userMap.get(vehicleReservation.getUsrId());
         invoice.setUserId(user.getEmail());
         Duration rentedDuration =
@@ -27,14 +28,17 @@ public class AdhocInvoiceService implements InvoiceService {
                         vehicleReservation.getFromDate());
         double hours = Math.ceil(rentedDuration.toHours());
 
-        HireableVehicle hireableVehicle = vehicleReservation.getVehicle();
 
         double hourlyCost = VehicleHourlyCosts.
-                vehicleHourlyCost.get(hireableVehicle.getVehicleType());
+                vehicleHourlyCost.get(vehicleReservation.getVehicleType());
         double fixedCost = VehicleFixedCosts
-                .vehicleFixedCost.get(hireableVehicle.getVehicleType());
+                .vehicleFixedCost.get(vehicleReservation.getVehicleType());
 
-        double rentalCost = hours * hourlyCost + fixedCost;
+        double vehicleAddonCost = AddonCostUtil.computeEquipmentCost(vehicleReservation);
+        invoice.setAddonCost(vehicleAddonCost);
+        double addonServiceCost = AddonCostUtil.computeServiceCost(vehicleReservation);
+        invoice.setAddonServicesCost(addonServiceCost);
+        double rentalCost = hours * hourlyCost + fixedCost + vehicleAddonCost + addonServiceCost;
         double taxes = rentalCost * .18;
 
         invoice.setUsageCharges(rentalCost);

@@ -7,6 +7,7 @@ import com.gb.carrental.model.reservation.VehicleMonthlyCosts;
 import com.gb.carrental.model.reservation.VehicleReservation;
 import com.gb.carrental.model.vehicle.HireableVehicle;
 import com.gb.carrental.repository.UserRepository;
+import com.gb.carrental.repository.VehicleRepository;
 
 import java.time.Duration;
 import java.util.UUID;
@@ -32,7 +33,8 @@ public class MonthInvoiceService implements InvoiceService {
 
         double months = Math.ceil(days % 30);
 
-        HireableVehicle hireableVehicle = vehicleReservation.getVehicle();
+        HireableVehicle hireableVehicle = VehicleRepository.vehicleMap
+                .get(vehicleReservation.getAccocatedVehicleId());
 
         double monthlyCost = VehicleMonthlyCosts.
                 vehicleMonthlyCost.get(hireableVehicle.getVehicleType());
@@ -43,7 +45,7 @@ public class MonthInvoiceService implements InvoiceService {
         double addonServiceCost = AddonCostUtil.computeEquipmentCost(vehicleReservation);
         invoice.setAddonCost(vehicleAddonCost);
         invoice.setAddonServicesCost(addonServiceCost);
-        double rentalCost = days * monthlyCost + fixedCost + vehicleAddonCost + addonServiceCost;
+        double rentalCost = months * monthlyCost + fixedCost + vehicleAddonCost + addonServiceCost;
         double taxes = rentalCost * .18;
 
         invoice.setUsageCharges(rentalCost);

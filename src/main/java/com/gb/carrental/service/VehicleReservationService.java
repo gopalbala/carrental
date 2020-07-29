@@ -9,5 +9,5 @@ import java.util.List;
 public interface VehicleReservationService {
     List<VehicleReservation> getReservations(VehicleType vehicleType);
 
-    boolean isVehicleBooked(String barcode, LocalDateTime fromDate, LocalDateTime toDate);
+    boolean isVehicleBooked(String qrCode, LocalDateTime fromDate, LocalDateTime toDate);
 }

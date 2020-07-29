@@ -6,6 +6,7 @@ import com.gb.carrental.model.reservation.VehicleFixedCosts;
 import com.gb.carrental.model.reservation.VehicleReservation;
 import com.gb.carrental.model.vehicle.HireableVehicle;
 import com.gb.carrental.repository.UserRepository;
+import com.gb.carrental.repository.VehicleRepository;
 
 import java.util.UUID;
 
@@ -15,7 +16,8 @@ public class InvoiceBuilderUtil {
         invoice.setInvoiceId(UUID.randomUUID().toString());
         User user = UserRepository.userMap.get(vehicleReservation.getUsrId());
         invoice.setUserId(user.getEmail());
-        HireableVehicle hireableVehicle = vehicleReservation.getVehicle();
+        HireableVehicle hireableVehicle = VehicleRepository.vehicleMap
+                .get(vehicleReservation.getAccocatedVehicleId());
         double fixedCost = VehicleFixedCosts
                 .vehicleFixedCost.get(hireableVehicle.getVehicleType());
         double taxes = fixedCost * .18;

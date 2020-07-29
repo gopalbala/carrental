@@ -14,7 +14,7 @@ public class InvoiceServiceFactory {
                 return new MonthInvoiceService();
             case HOURLY:
             default:
-                return new AdhocInvoiceService();
+                return new HourInvoiceService();
         }
     }
 }
