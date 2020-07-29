@@ -14,7 +14,7 @@ Users should be able to create an account for them to book vehicles of the below
  
 Admin should be able to add vehicle to inventory.  
 Users should be able to book an available vehicle.  
-Users should be able to scan barcode of the vehicle and book (walkin booking).  
+Users should be able to scan qrCode of the vehicle and book (walkin booking).  
 Users can pick booked vehicle from the available from the designated places.  
 Users should be able to cancel the booking.  
 Users should be able to return the vehicle post usage.  
