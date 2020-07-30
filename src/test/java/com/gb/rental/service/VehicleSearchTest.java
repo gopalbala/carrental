@@ -55,4 +55,40 @@ public class VehicleSearchTest {
                 "Bangalore", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(3));
         assertEquals(0, vehicleList.size());
     }
+
+    @Test
+    public void ShouldFindNoVehicleBySeats() {
+        VehicleInventoryRepository.vehicleInventoryList = TestData.buildVehicleInventory();
+        VehicleSearchService vehicleSearchService = new VehicleSearchServiceImpl();
+        List<HireableVehicle> vehicleList = vehicleSearchService.searchByType(6,
+                "Bangalore", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(3));
+        assertEquals(0, vehicleList.size());
+    }
+
+    @Test
+    public void ShouldFind1VehicleBySeats() {
+        VehicleInventoryRepository.vehicleInventoryList = TestData.buildVehicleInventory();
+        VehicleSearchService vehicleSearchService = new VehicleSearchServiceImpl();
+        List<HireableVehicle> vehicleList = vehicleSearchService.searchByType(5,
+                "Bangalore", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(3));
+        assertEquals(1, vehicleList.size());
+    }
+
+    @Test
+    public void ShouldFindNoVehicleByModel() {
+        VehicleInventoryRepository.vehicleInventoryList = TestData.buildVehicleInventory();
+        VehicleSearchService vehicleSearchService = new VehicleSearchServiceImpl();
+        List<HireableVehicle> vehicleList = vehicleSearchService.searchByModel("make", "model",
+                "Bangalore", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(3));
+        assertEquals(0, vehicleList.size());
+    }
+
+    @Test
+    public void ShouldFind1VehicleByModel() {
+        VehicleInventoryRepository.vehicleInventoryList = TestData.buildVehicleInventory();
+        VehicleSearchService vehicleSearchService = new VehicleSearchServiceImpl();
+        List<HireableVehicle> vehicleList = vehicleSearchService.searchByModel("Maruti", "Swift",
+                "Bangalore", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(3));
+        assertEquals(1, vehicleList.size());
+    }
 }
