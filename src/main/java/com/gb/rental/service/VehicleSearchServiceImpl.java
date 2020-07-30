@@ -2,11 +2,13 @@ package com.gb.rental.service;
 
 import com.gb.rental.model.vehicle.HireableVehicle;
 import com.gb.rental.model.vehicle.VehicleType;
+import com.gb.rental.repository.VehicleRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class VehicleSearchServiceImpl implements VehicleSearchService {
+    VehicleRepository vehicleRepository = new VehicleRepository();
     @Override
     public List<HireableVehicle> searchByType(VehicleType vehicleType, String city,
                                               LocalDateTime fromDate, LocalDateTime toDate) {

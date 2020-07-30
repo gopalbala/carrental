@@ -9,6 +9,7 @@ import com.gb.rental.model.vehicle.HireableVehicle;
 import com.gb.rental.model.vehicle.VehicleLocation;
 import com.gb.rental.model.vehicle.VehicleStatus;
 import com.gb.rental.repository.UserRepository;
+import com.gb.rental.repository.VehicleInventoryRepository;
 import com.gb.rental.repository.VehicleRepository;
 import com.gb.rental.repository.VehicleReservationRepository;
 
@@ -28,6 +29,8 @@ public class UserServiceImpl implements UserService {
     InvoiceNotificationService invoiceNotificationService =
             new InvoiceNotificationServiceImpl();
 
+    VehicleInventoryRepository vehicleInventoryRepository = new VehicleInventoryRepository();
+
     @Override
     public VehicleReservation scanToReserve(String qrCode, String userId) throws InvalidVehicleIdException, VehicleBookedException {
         if (VehicleRepository.vehicleMap.get(qrCode) == null) {
@@ -37,16 +40,19 @@ public class UserServiceImpl implements UserService {
                 LocalDateTime.now(), LocalDateTime.now().plusHours(2))) {
             throw new VehicleBookedException("Vehicle booked. Try another vehicle.");
         }
-        return buildQuickReservation(qrCode, userId);
+        VehicleReservation vehicleReservation = buildQuickReservation(qrCode, userId);
+        vehicleReservation = vehicleReservationRepository.reserve(vehicleReservation);
+        updateVehicleInventory(vehicleReservation);
+        return vehicleReservation;
     }
 
     @Override
     public VehicleReservation remoteReserve(VehicleReservation vehicleReservation) {
-        VehicleReservationRepository.vehicleReservationMap
-                .put(vehicleReservation.getReservationId(), vehicleReservation);
+        vehicleReservation = vehicleReservationRepository.reserve(vehicleReservation);
         Invoice invoice = invoiceService.computeInvoice(vehicleReservation);
         invoiceNotificationService.notifyUser(buildInvoiceNotification(invoice));
         //Notify vehicle inventory
+        updateVehicleInventory(vehicleReservation);
         return vehicleReservation;
     }
 
@@ -58,6 +64,7 @@ public class UserServiceImpl implements UserService {
                 .get(vehicleReservation.getAccocatedVehicleId());
         vehicleReservation.setStatus(ReservationStatus.CANCELLED);
         //Notify vehicle inventory
+        updateVehicleInventory(vehicleReservation);
         vehicleReservation.setDropLocation(hireableVehicle.
                 getParkedLocation().getAddress());
         vehicleReservation.setReturnDate(LocalDateTime.now());
@@ -97,6 +104,7 @@ public class UserServiceImpl implements UserService {
         vehicleReservation.setReturnDate(LocalDateTime.now());
         vehicleReservation.setEndMileage(vehicle.getMileage());
         Invoice invoice = invoiceService.computeInvoice(vehicleReservation);
+        updateVehicleInventory(vehicleReservation);
         invoiceNotificationService.notifyUser(buildInvoiceNotification(invoice));
     }
 
@@ -140,4 +148,16 @@ public class UserServiceImpl implements UserService {
         return invoiceNotification;
     }
 
+    private VehicleInventory buildVehicleInventory(VehicleReservation vehicleReservation) {
+        HireableVehicle hireableVehicle = VehicleRepository.vehicleMap
+                .get(vehicleReservation.getAccocatedVehicleId());
+        VehicleInventory vehicleInventory = new VehicleInventory(vehicleReservation,
+                hireableVehicle);
+        return vehicleInventory;
+    }
+
+    private void updateVehicleInventory(VehicleReservation vehicleReservation) {
+        VehicleInventory vehicleInventory = buildVehicleInventory(vehicleReservation);
+        vehicleInventoryRepository.addBookingToInventory(vehicleInventory);
+    }
 }
