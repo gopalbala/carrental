@@ -7,6 +7,46 @@ import com.gb.rental.model.vehicle.*;
 import java.util.UUID;
 
 public class TestData {
+    public static HireableVehicle getTruck() {
+        HireableVehicle truck = new Car();
+        String id = UUID.randomUUID().toString();
+        truck.setId(id);
+        truck.setLicensePlateNumber("ka05ma8390");
+        truck.setQrCode(id);
+        truck.setMake("Mahindra");
+        truck.setMake("Bolero");
+        truck.setYearOfManufacture(2015);
+        truck.setMileage(95910);
+        truck.setNumberOfSeats(5);
+        truck.setVehicleCategory(VehicleCategory.COMMERCIAL);
+        truck.setVehicleStatus(VehicleStatus.AVAILALBE);
+        truck.setVehicleType(VehicleType.TRUCK);
+        VehicleLocation vehicleLocation = new VehicleLocation();
+        vehicleLocation.setAddress(getAddress());
+        vehicleLocation.setCoordinates(getCoordinates());
+        return truck;
+    }
+
+    public static HireableVehicle getHatchBack() {
+        HireableVehicle car = new Car();
+        String id = UUID.randomUUID().toString();
+        car.setId(id);
+        car.setLicensePlateNumber("ka51ca8344");
+        car.setQrCode(id);
+        car.setMake("Hyundai");
+        car.setMake("i20");
+        car.setYearOfManufacture(2018);
+        car.setMileage(15010);
+        car.setNumberOfSeats(5);
+        car.setVehicleCategory(VehicleCategory.PASSENGER);
+        car.setVehicleStatus(VehicleStatus.AVAILALBE);
+        car.setVehicleType(VehicleType.HATCHBACK);
+        VehicleLocation vehicleLocation = new VehicleLocation();
+        vehicleLocation.setAddress(getAddress());
+        vehicleLocation.setCoordinates(getCoordinates());
+        return car;
+    }
+
     public static HireableVehicle getSuvCar() {
         HireableVehicle car = new Car();
         String id = UUID.randomUUID().toString();

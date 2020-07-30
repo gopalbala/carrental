@@ -8,7 +8,8 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public HireableVehicle addVehicle(HireableVehicle hireableVehicle) {
-        return VehicleRepository.vehicleMap.putIfAbsent(hireableVehicle.getId(), hireableVehicle);
+        VehicleRepository.vehicleMap.putIfAbsent(hireableVehicle.getId(), hireableVehicle);
+        return hireableVehicle;
     }
 
     @Override

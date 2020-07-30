@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public abstract class HireableVehicle {
     private String id;
-    private String licensePlantNumber;
+    private String licensePlateNumber;
     private String qrCode;
     private String make;
     private String model;
