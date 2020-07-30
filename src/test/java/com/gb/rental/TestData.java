@@ -63,7 +63,7 @@ public class TestData {
         car.setLicensePlateNumber("ka02ca7416");
         car.setQrCode(id);
         car.setMake("Maruti");
-        car.setMake("Swift");
+        car.setModel("Swift");
         car.setYearOfManufacture(2015);
         car.setMileage(55010);
         car.setNumberOfSeats(5);
