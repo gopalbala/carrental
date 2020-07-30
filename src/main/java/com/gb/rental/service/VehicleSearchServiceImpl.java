@@ -20,8 +20,9 @@ public class VehicleSearchServiceImpl implements VehicleSearchService {
                                 vehicleInventory.getVehicle().getVehicleType() == vehicleType
                                         && vehicleInventory.getVehicle().getParkedLocation().getAddress()
                                         .getCity().equalsIgnoreCase(city)
-                                        && fromDate.isAfter(vehicleInventory.getFromDate()) &&
-                                        toDate.isBefore(vehicleInventory.getDueDate())
+                                        && !(
+                                        fromDate.isBefore(vehicleInventory.getDueDate())
+                                                && toDate.isAfter(vehicleInventory.getFromDate()))
                         ).map(vehicleInventory -> vehicleInventory.getVehicle())
                         .collect(Collectors.toList());
         return hireableVehicles;
@@ -38,8 +39,9 @@ public class VehicleSearchServiceImpl implements VehicleSearchService {
                                         && vehicleInventory.getVehicle().getModel().equalsIgnoreCase(model)
                                         && vehicleInventory.getVehicle().getParkedLocation().getAddress()
                                         .getCity().equalsIgnoreCase(city)
-                                        && fromDate.isAfter(vehicleInventory.getFromDate()) &&
-                                        toDate.isBefore(vehicleInventory.getDueDate())
+                                        && !(
+                                        fromDate.isBefore(vehicleInventory.getDueDate())
+                                                && toDate.isAfter(vehicleInventory.getFromDate()))
                         ).map(vehicleInventory -> vehicleInventory.getVehicle())
                         .collect(Collectors.toList());
         return hireableVehicles;
@@ -55,8 +57,9 @@ public class VehicleSearchServiceImpl implements VehicleSearchService {
                                 vehicleInventory.getVehicle().getNumberOfSeats() >= (seats)
                                         && vehicleInventory.getVehicle().getParkedLocation().getAddress()
                                         .getCity().equalsIgnoreCase(city)
-                                        && fromDate.isAfter(vehicleInventory.getFromDate()) &&
-                                        toDate.isBefore(vehicleInventory.getDueDate())
+                                        && !(
+                                        fromDate.isBefore(vehicleInventory.getDueDate())
+                                                && toDate.isAfter(vehicleInventory.getFromDate()))
                         ).map(vehicleInventory -> vehicleInventory.getVehicle())
                         .collect(Collectors.toList());
         return hireableVehicles;
