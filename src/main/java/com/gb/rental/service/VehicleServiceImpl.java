@@ -5,11 +5,22 @@ import com.gb.rental.model.vehicle.HireableVehicle;
 import com.gb.rental.repository.VehicleRepository;
 
 public class VehicleServiceImpl implements VehicleService {
+    VehicleRepository vehicleRepository = new VehicleRepository();
+
+    @Override
+    public HireableVehicle getVehicleById(String id) {
+        return VehicleRepository.vehicleMap.get(id);
+    }
+
+    @Override
+    public HireableVehicle getVehicleByQrCode(String qrCode) {
+        return VehicleRepository.vehicles.stream().filter(hireableVehicle ->
+                hireableVehicle.getQrCode().equalsIgnoreCase(qrCode)).findAny().get();
+    }
 
     @Override
     public HireableVehicle addVehicle(HireableVehicle hireableVehicle) {
-        VehicleRepository.vehicleMap.putIfAbsent(hireableVehicle.getId(), hireableVehicle);
-        return hireableVehicle;
+        return vehicleRepository.addVehicle(hireableVehicle);
     }
 
     @Override
