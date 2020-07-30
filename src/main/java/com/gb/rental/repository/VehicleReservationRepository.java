@@ -26,6 +26,13 @@ public class VehicleReservationRepository {
                 .collect(Collectors.toList());
     }
 
+    public VehicleReservation reserve(VehicleReservation vehicleReservation) {
+        VehicleReservationRepository.vehicleReservationMap
+                .put(vehicleReservation.getReservationId(), vehicleReservation);
+        vehicleReservations.add(vehicleReservation);
+        return vehicleReservation;
+    }
+
     public VehicleReservation getVehicleReservation(String reservationId) {
         return vehicleReservationMap.get(reservationId);
     }

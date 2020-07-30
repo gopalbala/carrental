@@ -16,4 +16,5 @@ public class VehicleRepository {
         vehicles.add(hireableVehicle);
         return hireableVehicle;
     }
+
 }
