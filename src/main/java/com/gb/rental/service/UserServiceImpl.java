@@ -158,6 +158,6 @@ public class UserServiceImpl implements UserService {
 
     private void updateVehicleInventory(VehicleReservation vehicleReservation) {
         VehicleInventory vehicleInventory = buildVehicleInventory(vehicleReservation);
-        vehicleInventoryRepository.addBookingToInventory(vehicleInventory);
+        vehicleInventoryRepository.addToInventory(vehicleInventory);
     }
 }

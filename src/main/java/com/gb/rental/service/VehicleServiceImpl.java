@@ -1,7 +1,9 @@
 package com.gb.rental.service;
 
 import com.gb.rental.exceptions.VehicleNotExistsException;
+import com.gb.rental.model.reservation.VehicleInventory;
 import com.gb.rental.model.vehicle.HireableVehicle;
+import com.gb.rental.repository.VehicleInventoryRepository;
 import com.gb.rental.repository.VehicleRepository;
 
 public class VehicleServiceImpl implements VehicleService {
@@ -20,6 +22,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public HireableVehicle addVehicle(HireableVehicle hireableVehicle) {
+        addToInventory(hireableVehicle);
         return vehicleRepository.addVehicle(hireableVehicle);
     }
 
@@ -37,6 +40,14 @@ public class VehicleServiceImpl implements VehicleService {
         if (hireableVehicle == null)
             throw new VehicleNotExistsException("Vehicle with id " + vehicleId + "not found");
         VehicleRepository.vehicleMap.remove(vehicleId);
+        VehicleInventoryRepository vehicleInventoryRepository = new VehicleInventoryRepository();
+        vehicleInventoryRepository.removeFromInventory(new VehicleInventory(hireableVehicle));
         //Remove future bookings or reassign
+    }
+
+    private void addToInventory(HireableVehicle hireableVehicle) {
+        VehicleInventory vehicleInventory = new VehicleInventory(hireableVehicle);
+        VehicleInventoryRepository vehicleInventoryRepository = new VehicleInventoryRepository();
+        vehicleInventoryRepository.addToInventory(vehicleInventory);
     }
 }

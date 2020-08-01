@@ -14,7 +14,8 @@ public class InvoiceBuilderUtil {
     public static Invoice buildCancelledInvoice(VehicleReservation vehicleReservation) {
         Invoice invoice = new Invoice();
         invoice.setInvoiceId(UUID.randomUUID().toString());
-        User user = UserRepository.userMap.get(vehicleReservation.getUsrId());
+        invoice.setReservationId(vehicleReservation.getReservationId());
+        User user = UserRepository.userUserIdMap.get(vehicleReservation.getUsrId());
         invoice.setUserId(user.getEmail());
         HireableVehicle hireableVehicle = VehicleRepository.vehicleMap
                 .get(vehicleReservation.getAccocatedVehicleId());

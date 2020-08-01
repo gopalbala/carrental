@@ -2,6 +2,7 @@ package com.gb.rental.service;
 
 import com.gb.rental.model.reservation.VehicleReservation;
 import com.gb.rental.model.vehicle.VehicleType;
+import com.gb.rental.repository.VehicleInventoryRepository;
 import com.gb.rental.repository.VehicleReservationRepository;
 
 import java.time.LocalDateTime;
@@ -18,10 +19,12 @@ public class VehicleReservationServiceImpl implements VehicleReservationService 
 
     @Override
     public boolean isVehicleBooked(String qrCode, LocalDateTime fromDate, LocalDateTime toDate) {
-        return VehicleReservationRepository.vehicleReservations
+        return VehicleInventoryRepository.vehicleInventoryList
                 .stream().anyMatch(vehicleReservation ->
-                        vehicleReservation.getAccocatedVehicleId().equalsIgnoreCase(qrCode) &&
-                                !vehicleReservation.getFromDate().isAfter(fromDate) &&
-                                !vehicleReservation.getDueDate().isBefore(toDate));
+                        vehicleReservation.getVehicle().getId().equalsIgnoreCase(qrCode) &&
+                                ((vehicleReservation.getDueDate() != null &&
+                                        fromDate.isBefore(vehicleReservation.getDueDate()))
+                                        && (vehicleReservation.getFromDate() != null
+                                        && toDate.isAfter(vehicleReservation.getFromDate()))));
     }
 }

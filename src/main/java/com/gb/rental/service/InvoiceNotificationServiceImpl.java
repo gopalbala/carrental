@@ -12,7 +12,7 @@ public class InvoiceNotificationServiceImpl implements InvoiceNotificationServic
     public void notifyUser(InvoiceNotification invoiceNotification) {
         VehicleReservation vehicleReservation = VehicleReservationRepository.vehicleReservationMap
                 .get(invoiceNotification.getReservationId());
-        User user = UserRepository.userMap.get(vehicleReservation.getUsrId());
+        User user = UserRepository.userUserIdMap.get(vehicleReservation.getUsrId());
         System.out.println("Notification sent " + user.getContact().getEmail());
         invoiceNotification.setNotificationStatus(NotificationStatus.SENT);
     }
