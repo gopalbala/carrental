@@ -21,7 +21,7 @@ public class HourInvoiceService implements InvoiceService {
         Invoice invoice = new Invoice();
         invoice.setInvoiceId(UUID.randomUUID().toString());
         invoice.setReservationId(vehicleReservation.getReservationId());
-        User user = UserRepository.userMap.get(vehicleReservation.getUsrId());
+        User user = UserRepository.userUserIdMap.get(vehicleReservation.getUsrId());
         invoice.setUserId(user.getEmail());
         Duration rentedDuration =
                 Duration.between(vehicleReservation.getReturnDate(),

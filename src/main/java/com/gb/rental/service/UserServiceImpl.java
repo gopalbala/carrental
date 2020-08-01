@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
                 .get(vehicleReservation.getAccocatedVehicleId());
         vehicleReservation.setStartMileage(hireableVehicle.getMileage());
         vehicleReservation.setStatus(ReservationStatus.ACTIVE);
-        hireableVehicle.setVehicleStatus(VehicleStatus.BOOKED);
+        hireableVehicle.setVehicleStatus(VehicleStatus.INUSE);
         return hireableVehicle;
     }
 
@@ -129,6 +129,8 @@ public class UserServiceImpl implements UserService {
         vehicleReservation.setFromDate(LocalDateTime.now());
         vehicleReservation.setDueDate(LocalDateTime.now().plusHours(2));
         vehicleReservation.setStatus(ReservationStatus.ACTIVE);
+        vehicleReservation.setVehicleReservationType(VehicleReservationType.HOURLY);
+        vehicleReservation.setVehicleType(vehicle.getVehicleType());
         vehicleReservation.setStartMileage(vehicle.getMileage());
         vehicleReservation.setPickupLocation(
                 vehicle.getParkedLocation().getAddress());
