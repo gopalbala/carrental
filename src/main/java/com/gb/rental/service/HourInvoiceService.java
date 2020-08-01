@@ -34,6 +34,8 @@ public class HourInvoiceService implements InvoiceService {
 
         double hours = Math.ceil(rentedDuration.toHours());
 
+        if (hours == 0)
+            hours = 1;
 
         double hourlyCost = VehicleHourlyCosts.
                 vehicleHourlyCost.get(vehicleReservation.getVehicleType());
