@@ -1,0 +1,78 @@
+@startuml
+
+abstract class HireableVehicle {
+    - String id;
+    - String licensePlateNumber;
+    - String qrCode;
+    - String make;
+    - String model;
+    - int yearOfManufacture;
+    - double mileage;
+    - int numberOfSeats;
+    - VehicleCategory vehicleCategory;
+    - VehicleStatus vehicleStatus;
+    - VehicleType vehicleType;
+    - VehicleLocation parkedLocation;
+    - Coordinates currentLocation;
+}
+
+Car <|--HireableVehicle
+Van <|-- HireableVehicle
+Bike <|-- HireableVehicle
+
+HireableVehicle *-- VehicleLocation
+VehicleLocation *-- Coordinates
+VehicleLocation *-- Address
+class Car {
+}
+class Van{
+}
+class Bike {
+}
+
+class VehicleLocation {
+    - String locationId;
+    - Address address;
+    - Coordinates coordinates;
+}
+
+class Coordinates {
+double latitude;
+double longitude;
+}
+enum VehicleCategory {
+    PASSENGER
+    COMMERCIAL
+}
+
+class Address {
+-String addressLine1;
+-String addressLine2;
+-String addressLine3;
+-String street;
+-String city;
+-String state;
+-String country;
+-String pinCode;
+}
+
+enum VehicleStatus {
+    AVAILALBE
+    BOOKED
+    INUSE
+    SERVICED
+    LOST
+    MISC
+}
+
+enum VehicleType {
+    HATCHBACK,
+    SUV,
+    SEDAN,
+    THREEWHEELER,
+    TRUCK,
+    VAN,
+    MOTORCYCLE,
+    BICYCLE
+}
+@enduml
