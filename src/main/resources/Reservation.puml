@@ -56,5 +56,75 @@ ChildSeat <|-- VehicleAddon
 Navigation <|-- VehicleAddon
 PassengerScreen <|-- VehicleAddon
 
+class RentalLocation {
+String id;
+Address address;
+Coordinates coordinates;
+}
+class Coordinates {
+double latitude;
+double longitude;
+}
+class Address {
+-String addressLine1;
+-String addressLine2;
+-String addressLine3;
+-String street;
+-String city;
+-String state;
+-String country;
+-String pinCode;
+}
+RentalLocation *--Address
+RentalLocation*--Coordinates
 
+class VehicleInventory {
+-String id;
+-String reservationId;
+-LocalDateTime reservationDate;
+-ReservationStatus status;
+-LocalDateTime fromDate;
+-LocalDateTime dueDate;
+-LocalDateTime returnDate;
+-double startMileage;
+-double endMileage;
+-HireableVehicle vehicle;
+-VehicleReservationType vehicleReservationType;
++VehicleInventory(VehicleReservation,HireableVehicle)
++VehicleInventory(HireableVehicle)
+
+}
+
+abstract class HireableVehicle {
+    - String id;
+    - String licensePlateNumber;
+    - String qrCode;
+    - String make;
+    - String model;
+    - int yearOfManufacture;
+    - double mileage;
+    - int numberOfSeats;
+    - VehicleCategory vehicleCategory;
+    - VehicleStatus vehicleStatus;
+    - VehicleType vehicleType;
+    - VehicleLocation parkedLocation;
+    - Coordinates currentLocation;
+
+}
+VehicleInventory *-- HireableVehicle
+
+enum NotificationStatus {
+    SENT
+    PENDING
+    RETRIED
+    FAILED
+}
+
+enum VehicleReservationType {
+    HOURLY
+    FOUR_HOURS
+    EIGHT_HOURS
+    DAY
+    MONTH
+}
 @enduml
