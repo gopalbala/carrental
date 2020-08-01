@@ -1,13 +1,11 @@
 package com.gb.rental;
 
 import com.gb.rental.model.account.Contact;
+import com.gb.rental.model.account.LicenseInfo;
 import com.gb.rental.model.account.User;
 import com.gb.rental.model.common.Address;
 import com.gb.rental.model.common.Coordinates;
-import com.gb.rental.model.reservation.ReservationStatus;
-import com.gb.rental.model.reservation.VehicleInventory;
-import com.gb.rental.model.reservation.VehicleReservation;
-import com.gb.rental.model.reservation.VehicleReservationType;
+import com.gb.rental.model.reservation.*;
 import com.gb.rental.model.vehicle.*;
 import org.apache.commons.lang3.RandomUtils;
 
@@ -191,5 +189,57 @@ public class TestData {
         contact.setPhone("8745828882");
         contact.setAddress(getAddress());
         return contact;
+    }
+
+
+    public static VehicleReservation getVehicleReservation(User user) {
+        List<HireableVehicle> hireableVehicles = getHireableVehicles();
+        VehicleReservation vehicleReservation = new VehicleReservation();
+        HireableVehicle vehicle = hireableVehicles.get(0);
+        vehicle.setVehicleStatus(VehicleStatus.BOOKED);
+        vehicleReservation.setUsrId(user.getId());
+        vehicleReservation.setReservationId(UUID.randomUUID().toString());
+        vehicleReservation.setFromDate(LocalDateTime.now());
+        vehicleReservation.setDueDate(LocalDateTime.now().plusHours(2));
+        vehicleReservation.setStatus(ReservationStatus.ACTIVE);
+        vehicleReservation.setVehicleReservationType(VehicleReservationType.HOURLY);
+        vehicleReservation.setVehicleType(vehicle.getVehicleType());
+        vehicleReservation.setStartMileage(vehicle.getMileage());
+        vehicleReservation.setPickupLocation(
+                vehicle.getParkedLocation().getAddress());
+        vehicleReservation.setAddonServices(List.of(getChauffeur()));
+        vehicleReservation.setVehicleAddons(new ArrayList<>());
+        vehicleReservation.getVehicleAddons().add(getNavigation());
+        vehicleReservation.setVehicleReservationType(VehicleReservationType.DAY);
+        return vehicleReservation;
+    }
+
+    public static Chauffeur getChauffeur() {
+        AddonService addonService = new Chauffeur();
+        addonService.setId(UUID.randomUUID().toString());
+        addonService.setCost(250);
+        addonService.setName("samplename");
+        addonService.setDescription("driven");
+        return ((Chauffeur) addonService);
+    }
+
+    public static LicenseInfo getLicenseInfo() {
+        LicenseInfo licenseInfo = new LicenseInfo();
+        licenseInfo.setLicenceNumber("ka051023098290");
+        LocalDateTime issuedDate = LocalDateTime.now().minusYears(5);
+        licenseInfo.setIssueDate(issuedDate);
+        licenseInfo.setExpiryDate(issuedDate.plusYears(20));
+        licenseInfo.setIssuedAtPlace("Jayanagar, Bangalore");
+        licenseInfo.setIssuedInState("Karnataka");
+        licenseInfo.setIssuedInCountry("India");
+        return licenseInfo;
+    }
+
+    public static VehicleAddon getNavigation() {
+        VehicleAddon navigation = new Navigation();
+        navigation.setCost(500);
+        navigation.setId(UUID.randomUUID().toString());
+        navigation.setDescription("Navigation map");
+        return navigation;
     }
 }

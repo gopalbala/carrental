@@ -142,4 +142,22 @@ public class UserServiceTest {
                 LocalDateTime.now().plusDays(3), LocalDateTime.now().plusDays(4));
         assertEquals(hiredVehicles.size(), 0);
     }
+
+    @Test
+    public void should_RemoteReserve() throws VehicleBookedException, InvalidVehicleIdException {
+        VehicleRepository vehicleRepository = new VehicleRepository();
+        User user = TestData.getUser("user@email.com");
+        UserRepository.userMap.putIfAbsent("user@email.com", user);
+        UserRepository.userUserIdMap.putIfAbsent(user.getId(), user);
+        List<HireableVehicle> vehicleList = TestData.getHireableVehicles();
+        for (HireableVehicle hireableVehicle : vehicleList) {
+            vehicleRepository.addVehicle(hireableVehicle);
+            VehicleInventoryRepository.vehicleInventoryList.add(new VehicleInventory(hireableVehicle));
+        }
+        UserService userService = new UserServiceImpl();
+        VehicleReservation vehicleReservation = TestData.getVehicleReservation(user);
+        vehicleReservation = userService.remoteReserve(vehicleReservation);
+        assertNotNull(vehicleReservation);
+        assertEquals(vehicleReservation.getStatus(), ReservationStatus.CONFIRMED);
+    }
 }

@@ -24,14 +24,20 @@ public class MonthInvoiceService implements InvoiceService {
         invoice.setReservationId(vehicleReservation.getReservationId());
         User user = UserRepository.userMap.get(vehicleReservation.getUsrId());
         invoice.setUserId(user.getEmail());
-        Duration rentedDuration =
-                Duration.between(vehicleReservation.getReturnDate(),
-                        vehicleReservation.getFromDate());
+        Duration rentedDuration;
+        if (vehicleReservation.getReturnDate() == null)
+            rentedDuration =
+                    Duration.between(vehicleReservation.getFromDate(),
+                            vehicleReservation.getFromDate().plusMonths(1));
+        else
+            rentedDuration = Duration.between(vehicleReservation.getFromDate(),
+                    vehicleReservation.getReturnDate());
+
         double hours = Math.ceil(rentedDuration.toHours());
 
-        double days = Math.ceil(hours % 24);
+        double days = Math.ceil(hours / 24) + hours % 24;
 
-        double months = Math.ceil(days % 30);
+        double months = Math.ceil(days / 30);
 
         HireableVehicle hireableVehicle = VehicleRepository.vehicleMap
                 .get(vehicleReservation.getAccocatedVehicleId());

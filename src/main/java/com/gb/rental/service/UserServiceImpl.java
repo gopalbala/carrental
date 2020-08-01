@@ -48,6 +48,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public VehicleReservation remoteReserve(VehicleReservation vehicleReservation) {
+        vehicleReservation.setStatus(ReservationStatus.CONFIRMED);
+        vehicleReservation.setReservationDate(LocalDateTime.now());
         vehicleReservation = vehicleReservationRepository.reserve(vehicleReservation);
         Invoice invoice = invoiceService.computeInvoice(vehicleReservation);
         invoiceNotificationService.notifyUser(buildInvoiceNotification(invoice));
