@@ -1,0 +1,22 @@
+@startuml
+
+abstract class AddonService {
+-String id;
+-String name;
+-String description;
+-double cost;
+}
+
+class Chauffeur {
+}
+class DeepCleaning{
+}
+class Insurance{
+}
+
+Chauffeur <|-- AddonService
+DeepCleaning <|-- AddonService
+Insurance <|-- AddonService
+
+
+@enduml
