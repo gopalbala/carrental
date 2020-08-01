@@ -1,12 +1,10 @@
 package com.gb.rental.model.reservation;
 
-public class Driver extends AddonServiceDecorator {
-    public Driver(AddonService addonService) {
-        super(addonService);
-    }
+public class Driver extends AddonService {
+
 
     @Override
     public double getCost() {
-        return super.getCost() + 250;
+        return 250;
     }
 }

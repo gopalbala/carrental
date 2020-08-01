@@ -1,12 +1,8 @@
 package com.gb.rental.model.reservation;
 
-public class ChildSeat extends AddonDecorator {
-    public ChildSeat(VehicleAddon vehicleAddon) {
-        super(vehicleAddon);
-    }
-
+public class ChildSeat extends VehicleAddon {
     @Override
     public double getCost() {
-        return super.getCost() + 150;
+        return 150;
     }
 }

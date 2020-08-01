@@ -1,12 +1,9 @@
 package com.gb.rental.model.reservation;
 
-public class DeepCleaning extends AddonServiceDecorator {
-    public DeepCleaning(AddonService addonService) {
-        super(addonService);
-    }
+public class DeepCleaning extends AddonService {
 
     @Override
     public double getCost() {
-        return super.getCost() + 300;
+        return 300;
     }
 }
