@@ -39,4 +39,11 @@ public class VehicleInventory {
         this.vehicle = hireableVehicle;
         this.vehicleReservationType = vehicleReservation.getVehicleReservationType();
     }
+
+    public VehicleInventory(HireableVehicle hireableVehicle) {
+        this.id = UUID.randomUUID().toString();
+        this.startMileage = hireableVehicle.getMileage();
+        this.endMileage = hireableVehicle.getMileage();
+        this.vehicle = hireableVehicle;
+    }
 }
