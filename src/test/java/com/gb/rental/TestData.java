@@ -1,5 +1,7 @@
 package com.gb.rental;
 
+import com.gb.rental.model.account.Contact;
+import com.gb.rental.model.account.User;
 import com.gb.rental.model.common.Address;
 import com.gb.rental.model.common.Coordinates;
 import com.gb.rental.model.reservation.ReservationStatus;
@@ -7,6 +9,7 @@ import com.gb.rental.model.reservation.VehicleInventory;
 import com.gb.rental.model.reservation.VehicleReservation;
 import com.gb.rental.model.reservation.VehicleReservationType;
 import com.gb.rental.model.vehicle.*;
+import org.apache.commons.lang3.RandomUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -160,5 +163,33 @@ public class TestData {
         vehicleInventories.add(new VehicleInventory(buildMarutiHatchbackReservation(),
                 getMarutiHatchBack()));
         return vehicleInventories;
+    }
+
+    public static List<HireableVehicle> getHireableVehicles() {
+        List<HireableVehicle> hireableVehicles = new ArrayList<>();
+        hireableVehicles.add(getHatchBack());
+        hireableVehicles.add(getMarutiHatchBack());
+        hireableVehicles.add(getSuvCar());
+        hireableVehicles.add(getSuvCar());
+        return hireableVehicles;
+    }
+
+    public static User getUser(String email) {
+        User user = new User();
+        user.setEmail(email);
+        user.setId(UUID.randomUUID().toString());
+        user.setUserName("testusername" + RandomUtils.nextInt());
+        user.setPassword("testuserwpd");
+        user.setLastAccessed(LocalDateTime.now().minusDays(2));
+        user.setContact(getContact(email));
+        return user;
+    }
+
+    public static Contact getContact(String email) {
+        Contact contact = new Contact();
+        contact.setEmail(email);
+        contact.setPhone("8745828882");
+        contact.setAddress(getAddress());
+        return contact;
     }
 }
