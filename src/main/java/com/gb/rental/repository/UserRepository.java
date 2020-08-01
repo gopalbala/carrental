@@ -50,8 +50,10 @@ public class UserRepository implements AccountRepository {
                 VehicleReservationRepository.vehicleReservations
                         .stream().filter(vehicleReservation ->
                         vehicleReservation.getUsrId().equalsIgnoreCase(userId) &&
-                                vehicleReservation.getReservationDate().isAfter(startDate) &&
-                                vehicleReservation.getReservationDate().isBefore(endDate))
+                                ((vehicleReservation.getDueDate() != null &&
+                                        startDate.isBefore(vehicleReservation.getDueDate()))
+                                        && (vehicleReservation.getFromDate() != null
+                                        && endDate.isAfter(vehicleReservation.getFromDate()))))
                         .collect(Collectors.toList());
         return vehicleReservationList.stream()
                 .map(vehicleReservation -> VehicleRepository.vehicleMap
