@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -48,7 +47,7 @@ public class UserServiceTest {
 
         UserService userService = new UserServiceImpl();
         VehicleReservation vehicleReservation =
-                userService.scanToReserve(vehicleList.get(1).getQrCode(), UUID.randomUUID().toString());
+                userService.scanToReserve(vehicleList.get(1).getQrCode(), user.getId());
 
         assertNotNull(vehicleReservation);
     }
