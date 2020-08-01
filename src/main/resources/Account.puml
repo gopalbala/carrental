@@ -1,0 +1,80 @@
+@startuml
+
+abstract class Account {
+    - String id;
+    - String email;
+    - String userName;
+    - String password;
+    - LocalDateTime lastAccessed;
+    - Contact contact;
+}
+
+class Contact {
+-String phone;
+-String email;
+-Address address;
+- PersonalInfo personalInfo;
+}
+
+class Address {
+-String addressLine1;
+-String addressLine2;
+-String addressLine3;
+-String street;
+-String city;
+-String state;
+-String country;
+-String pinCode;
+}
+
+class PersonalInfo {
+   -String firstName;
+   -String lastName;
+   -String middleName;
+   -String initials;
+   -String dob;
+}
+Admin <|-- Account
+User <|-- Account
+Driver <|-- Account
+Account *-- Contact
+Contact *-- Address
+Contact *-- PersonalInfo
+User *-- LicenseInfo
+Driver *-- LicenseInfo
+enum AccountType {
+USER
+    ADMIN
+    DRIVER
+}
+class User {
+-LicenseInfo licenseInfo;
+}
+class LicenseInfo {
+-String licenceNumber;
+-LocalDateTime issueDate;
+-LocalDateTime expiryDate;
+-String issuedAtPlace;
+-String issuedInState;
+-String issuedInCountry;
+-LicenseType licenseType;
+}
+
+enum AccountStatus {
+    ACTIVE
+    CLOSED
+    BLOCKED
+    BLACKLISTED
+    }
+    
+    enum LicenseType {
+        MCWG
+        MC
+        LMW
+        HMW
+        INTERNATIONALMC
+        INTERNATIONALMCWG
+        INTERNATIONALLMW
+        INTERNATIONALHMW
+    }
+@enduml
