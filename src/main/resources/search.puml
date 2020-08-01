@@ -1,0 +1,22 @@
+@startuml
+left to right direction
+actor "User" as usr
+package Reservation {
+usecase "Search" as uc1
+usecase "Scan To Reserve" as uc2
+usecase "Pickup" as uc3
+usecase "Return Vehicle" as uc4
+usecase "Remote Reserve" as uc5
+usecase "Cancel" as uc6
+usecase "Fetch Hired Vehicles" as uc7
+}
+usr --> uc1
+usr --> uc2
+usr --> uc3
+usr --> uc4
+usr --> uc5
+usr --> uc6
+usr ->> uc7
+
+
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+left to right direction
+actor "System" as sys
+package Notification {
+usecase "Compute Invoice" as suc1
+usecase "Send invoice" as suc2
+usecase "Send Booking Reminder" as suc3
+usecase "Update Inventory" as suc4
+}
+sys --> suc1
+sys --> suc2
+sys --> suc3
+sys --> suc4
+@enduml
