@@ -76,7 +76,7 @@ class Address {
 -String pinCode;
 }
 RentalLocation *--Address
-RentalLocation*--Coordinates
+RentalLocation *--Coordinates
 
 class VehicleInventory {
 -String id;
@@ -111,7 +111,31 @@ abstract class HireableVehicle {
     - Coordinates currentLocation;
 
 }
-VehicleInventory *-- HireableVehicle
+VehicleInventory o-- HireableVehicle
+
+class VehicleReservation {
+-String reservationId;
+-String usrId;
+-LocalDateTime reservationDate;
+-ReservationStatus status;
+-LocalDateTime fromDate;
+-LocalDateTime dueDate;
+-LocalDateTime returnDate;
+-Address pickupLocation;
+-Address dropLocation;
+-double startMileage;
+-double endMileage;
+-e HireableVehicle vehicle;
+-String accocatedVehicleId;
+-VehicleType vehicleType;
+-String invoiceId;
+-List<VehicleAddon> vehicleAddons;
+-List<AddonService> addonServices;
+-VehicleReservationType vehicleReservationType;
+}
+
+VehicleReservation *-- VehicleAddon
+VehicleReservation *-- AddonService
 
 enum NotificationStatus {
     SENT
@@ -127,4 +151,5 @@ enum VehicleReservationType {
     DAY
     MONTH
 }
+
 @enduml
