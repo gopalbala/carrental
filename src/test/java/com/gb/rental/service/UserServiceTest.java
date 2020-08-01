@@ -13,6 +13,7 @@ import com.gb.rental.model.vehicle.VehicleStatus;
 import com.gb.rental.repository.UserRepository;
 import com.gb.rental.repository.VehicleInventoryRepository;
 import com.gb.rental.repository.VehicleRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class UserServiceTest {
+    @AfterEach
+    public void clean() {
+        VehicleRepository.vehicleMap.clear();
+        VehicleRepository.vehicles.clear();
+        UserRepository.userMap.clear();
+        UserRepository.userUserIdMap.clear();
+        UserRepository.users.clear();
+        VehicleInventoryRepository.vehicleInventoryList.clear();
+    }
+
     @Test
     public void should_ScanToReserve() throws VehicleBookedException, InvalidVehicleIdException {
         VehicleRepository vehicleRepository = new VehicleRepository();
@@ -53,6 +64,7 @@ public class UserServiceTest {
             vehicleRepository.addVehicle(hireableVehicle);
             VehicleInventoryRepository.vehicleInventoryList.add(new VehicleInventory(hireableVehicle));
         }
+
         UserService userService = new UserServiceImpl();
         VehicleReservation vehicleReservation =
                 userService.scanToReserve(vehicleList.get(1).getQrCode(), user.getId());

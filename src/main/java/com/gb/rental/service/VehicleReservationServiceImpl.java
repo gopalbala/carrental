@@ -20,11 +20,11 @@ public class VehicleReservationServiceImpl implements VehicleReservationService 
     @Override
     public boolean isVehicleBooked(String qrCode, LocalDateTime fromDate, LocalDateTime toDate) {
         return VehicleInventoryRepository.vehicleInventoryList
-                .stream().anyMatch(vehicleReservation ->
-                        vehicleReservation.getVehicle().getId().equalsIgnoreCase(qrCode) &&
-                                ((vehicleReservation.getDueDate() != null &&
-                                        fromDate.isBefore(vehicleReservation.getDueDate()))
-                                        && (vehicleReservation.getFromDate() != null
-                                        && toDate.isAfter(vehicleReservation.getFromDate()))));
+                .stream().anyMatch(vehicleInventory ->
+                        vehicleInventory.getVehicle().getId().equalsIgnoreCase(qrCode) &&
+                                ((vehicleInventory.getDueDate() != null &&
+                                        fromDate.isBefore(vehicleInventory.getDueDate()))
+                                        && (vehicleInventory.getFromDate() != null
+                                        && toDate.isAfter(vehicleInventory.getFromDate()))));
     }
 }
