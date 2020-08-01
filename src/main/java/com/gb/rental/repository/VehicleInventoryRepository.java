@@ -8,8 +8,14 @@ import java.util.List;
 public class VehicleInventoryRepository {
     public static List<VehicleInventory> vehicleInventoryList = new ArrayList<>();
 
-    public VehicleInventory addBookingToInventory(VehicleInventory vehicleInventory) {
+    public VehicleInventory addToInventory(VehicleInventory vehicleInventory) {
         vehicleInventoryList.add(vehicleInventory);
         return vehicleInventory;
+    }
+
+    public void removeFromInventory(VehicleInventory vehicleInventory) {
+        vehicleInventoryList.removeIf(vi -> vi.getVehicle().getQrCode().equalsIgnoreCase(
+                vehicleInventory.getVehicle().getQrCode()
+        ));
     }
 }

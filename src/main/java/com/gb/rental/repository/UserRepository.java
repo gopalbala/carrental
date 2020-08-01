@@ -15,10 +15,12 @@ import java.util.stream.Collectors;
 
 public class UserRepository implements AccountRepository {
     public static Map<String, User> userMap = new HashMap<>();
+    public static Map<String, User> userUserIdMap = new HashMap<>();
     public static List<User> users = new ArrayList<>();
 
     public Account createAccount(Account account) {
         userMap.putIfAbsent(account.getEmail(), (User) account);
+        userUserIdMap.putIfAbsent(account.getId(), (User) account);
         return account;
     }
 
