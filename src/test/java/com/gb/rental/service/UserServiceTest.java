@@ -8,6 +8,7 @@ import com.gb.rental.model.reservation.ReservationStatus;
 import com.gb.rental.model.reservation.VehicleInventory;
 import com.gb.rental.model.reservation.VehicleReservation;
 import com.gb.rental.model.vehicle.HireableVehicle;
+import com.gb.rental.model.vehicle.VehicleStatus;
 import com.gb.rental.repository.UserRepository;
 import com.gb.rental.repository.VehicleInventoryRepository;
 import com.gb.rental.repository.VehicleRepository;
@@ -21,13 +22,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class UserServiceTest {
     @Test
-    public void Should_ScanToReserve() throws VehicleBookedException, InvalidVehicleIdException {
+    public void should_ScanToReserve() throws VehicleBookedException, InvalidVehicleIdException {
         VehicleRepository vehicleRepository = new VehicleRepository();
         List<HireableVehicle> vehicleList = TestData.getHireableVehicles();
         for (HireableVehicle hireableVehicle : vehicleList) {
             vehicleRepository.addVehicle(hireableVehicle);
             VehicleInventoryRepository.vehicleInventoryList.add(new VehicleInventory(hireableVehicle));
         }
+        User user = TestData.getUser("user@email.com");
+        UserRepository.userMap.putIfAbsent("user@email.com", user);
+        UserRepository.userUserIdMap.putIfAbsent(user.getId(), user);
+
         UserService userService = new UserServiceImpl();
         VehicleReservation vehicleReservation =
                 userService.scanToReserve(vehicleList.get(1).getQrCode(), UUID.randomUUID().toString());
@@ -36,7 +41,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void Should_CancelReservation() throws VehicleBookedException, InvalidVehicleIdException {
+    public void should_CancelReservation() throws VehicleBookedException, InvalidVehicleIdException {
         VehicleRepository vehicleRepository = new VehicleRepository();
         User user = TestData.getUser("user@email.com");
         UserRepository.userMap.putIfAbsent("user@email.com", user);
@@ -53,5 +58,24 @@ public class UserServiceTest {
         vehicleReservation = userService.cancel(vehicleReservation.getReservationId());
 
         assertEquals(vehicleReservation.getStatus(), ReservationStatus.CANCELLED);
+    }
+
+    @Test
+    public void should_PickupVehicle() throws VehicleBookedException, InvalidVehicleIdException {
+        VehicleRepository vehicleRepository = new VehicleRepository();
+        User user = TestData.getUser("user@email.com");
+        UserRepository.userMap.putIfAbsent("user@email.com", user);
+        UserRepository.userUserIdMap.putIfAbsent(user.getId(), user);
+        List<HireableVehicle> vehicleList = TestData.getHireableVehicles();
+        for (HireableVehicle hireableVehicle : vehicleList) {
+            vehicleRepository.addVehicle(hireableVehicle);
+            VehicleInventoryRepository.vehicleInventoryList.add(new VehicleInventory(hireableVehicle));
+        }
+        UserService userService = new UserServiceImpl();
+        VehicleReservation vehicleReservation =
+                userService.scanToReserve(vehicleList.get(1).getQrCode(), user.getId());
+        userService.pickupVehicle(vehicleReservation);
+
+        assertEquals(vehicleList.get(1).getVehicleStatus(), VehicleStatus.INUSE);
     }
 }
