@@ -1,4 +1,21 @@
 @startuml
+class Invoice {
+-String invoiceId;
+-String reservationId;
+-String userId;
+-double usageCharges;
+-double addonCost;
+-double addonServicesCost;
+-double taxes;
+-double total;
+}
+
+class InvoiceNotification {
+-String reservationId;
+-String userId;
+-LocalDateTime createdDate;
+-NotificationStatus notificationStatus;
+}
 
 abstract class AddonService {
 -String id;
@@ -13,10 +30,31 @@ class DeepCleaning{
 }
 class Insurance{
 }
-
+class OnDemandTowing{
+}
+class WiFi{
+}
 Chauffeur <|-- AddonService
 DeepCleaning <|-- AddonService
 Insurance <|-- AddonService
+OnDemandTowing <|-- AddonService
+WiFi <|-- AddonService
+
+abstract class VehicleAddon {
+-String id;
+-String name;
+-String description;
+-double cost;
+}
+class ChildSeat{
+}
+class Navigation{
+}
+class PassengerScreen{
+}
+ChildSeat <|-- VehicleAddon
+Navigation <|-- VehicleAddon
+PassengerScreen <|-- VehicleAddon
 
 
 @enduml
