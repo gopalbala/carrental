@@ -137,6 +137,14 @@ class VehicleReservation {
 VehicleReservation *-- VehicleAddon
 VehicleReservation *-- AddonService
 
+class ReservationReminder {
+-LocalDateTime reservationDate;
+-String reservationId;
+-String userId;
+-LocalDateTime createdDate;
+-NotificationStatus notificationStatus;
+}
+
 enum NotificationStatus {
     SENT
     PENDING
