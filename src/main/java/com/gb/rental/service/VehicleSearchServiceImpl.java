@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 public class VehicleSearchServiceImpl implements VehicleSearchService {
 
     @Override
-    public List<HireableVehicle> searchByType(VehicleType vehicleType, String city,
-                                              LocalDateTime fromDate, LocalDateTime toDate) {
+    public List<HireableVehicle> search(VehicleType vehicleType, String city,
+                                        LocalDateTime fromDate, LocalDateTime toDate) {
         List<HireableVehicle> hireableVehicles =
                 VehicleInventoryRepository.vehicleInventoryList
                         .stream()
@@ -31,8 +31,8 @@ public class VehicleSearchServiceImpl implements VehicleSearchService {
     }
 
     @Override
-    public List<HireableVehicle> searchByModel(String make, String model, String city,
-                                               LocalDateTime fromDate, LocalDateTime toDate) {
+    public List<HireableVehicle> search(String make, String model, String city,
+                                        LocalDateTime fromDate, LocalDateTime toDate) {
         List<HireableVehicle> hireableVehicles =
                 VehicleInventoryRepository.vehicleInventoryList
                         .stream()
@@ -52,8 +52,8 @@ public class VehicleSearchServiceImpl implements VehicleSearchService {
     }
 
     @Override
-    public List<HireableVehicle> searchByType(int seats, String city,
-                                              LocalDateTime fromDate, LocalDateTime toDate) {
+    public List<HireableVehicle> search(int seats, String city,
+                                        LocalDateTime fromDate, LocalDateTime toDate) {
         List<HireableVehicle> hireableVehicles =
                 VehicleInventoryRepository.vehicleInventoryList
                         .stream()

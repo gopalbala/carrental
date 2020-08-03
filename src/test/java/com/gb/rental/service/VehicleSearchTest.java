@@ -16,7 +16,7 @@ public class VehicleSearchTest {
     public void ShouldFindVehicleByType() {
         VehicleInventoryRepository.vehicleInventoryList = TestData.buildVehicleInventory();
         VehicleSearchService vehicleSearchService = new VehicleSearchServiceImpl();
-        List<HireableVehicle> vehicleList = vehicleSearchService.searchByType(VehicleType.HATCHBACK,
+        List<HireableVehicle> vehicleList = vehicleSearchService.search(VehicleType.HATCHBACK,
                 "Bangalore", LocalDateTime.now().plusDays(3), LocalDateTime.now().plusDays(4));
         assertEquals(2, vehicleList.size());
     }
@@ -30,7 +30,7 @@ public class VehicleSearchTest {
                 .setDueDate(LocalDateTime.now().plusDays(4));
 
         VehicleSearchService vehicleSearchService = new VehicleSearchServiceImpl();
-        List<HireableVehicle> vehicleList = vehicleSearchService.searchByType(VehicleType.HATCHBACK,
+        List<HireableVehicle> vehicleList = vehicleSearchService.search(VehicleType.HATCHBACK,
                 "Bangalore", LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(3));
         assertEquals(1, vehicleList.size());
     }
@@ -51,7 +51,7 @@ public class VehicleSearchTest {
                 .setDueDate(LocalDateTime.now().plusDays(2));
 
         VehicleSearchService vehicleSearchService = new VehicleSearchServiceImpl();
-        List<HireableVehicle> vehicleList = vehicleSearchService.searchByType(VehicleType.HATCHBACK,
+        List<HireableVehicle> vehicleList = vehicleSearchService.search(VehicleType.HATCHBACK,
                 "Bangalore", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(3));
         assertEquals(0, vehicleList.size());
     }
@@ -60,7 +60,7 @@ public class VehicleSearchTest {
     public void ShouldFindNoVehicleBySeats() {
         VehicleInventoryRepository.vehicleInventoryList = TestData.buildVehicleInventory();
         VehicleSearchService vehicleSearchService = new VehicleSearchServiceImpl();
-        List<HireableVehicle> vehicleList = vehicleSearchService.searchByType(6,
+        List<HireableVehicle> vehicleList = vehicleSearchService.search(6,
                 "Bangalore", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(3));
         assertEquals(0, vehicleList.size());
     }
@@ -69,7 +69,7 @@ public class VehicleSearchTest {
     public void ShouldFind1VehicleBySeats() {
         VehicleInventoryRepository.vehicleInventoryList = TestData.buildVehicleInventory();
         VehicleSearchService vehicleSearchService = new VehicleSearchServiceImpl();
-        List<HireableVehicle> vehicleList = vehicleSearchService.searchByType(5,
+        List<HireableVehicle> vehicleList = vehicleSearchService.search(5,
                 "Bangalore", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(3));
         assertEquals(1, vehicleList.size());
     }
@@ -78,7 +78,7 @@ public class VehicleSearchTest {
     public void ShouldFindNoVehicleByModel() {
         VehicleInventoryRepository.vehicleInventoryList = TestData.buildVehicleInventory();
         VehicleSearchService vehicleSearchService = new VehicleSearchServiceImpl();
-        List<HireableVehicle> vehicleList = vehicleSearchService.searchByModel("make", "model",
+        List<HireableVehicle> vehicleList = vehicleSearchService.search("make", "model",
                 "Bangalore", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(3));
         assertEquals(0, vehicleList.size());
     }
@@ -87,7 +87,7 @@ public class VehicleSearchTest {
     public void ShouldFind1VehicleByModel() {
         VehicleInventoryRepository.vehicleInventoryList = TestData.buildVehicleInventory();
         VehicleSearchService vehicleSearchService = new VehicleSearchServiceImpl();
-        List<HireableVehicle> vehicleList = vehicleSearchService.searchByModel("Maruti", "Swift",
+        List<HireableVehicle> vehicleList = vehicleSearchService.search("Maruti", "Swift",
                 "Bangalore", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(3));
         assertEquals(1, vehicleList.size());
     }

@@ -22,7 +22,6 @@ public class VehicleReservation {
     private Address dropLocation;
     private double startMileage;
     private double endMileage;
-//    private HireableVehicle vehicle;
     private String accocatedVehicleId;
     private VehicleType vehicleType;
     private String invoiceId;

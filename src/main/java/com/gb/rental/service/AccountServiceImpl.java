@@ -12,7 +12,7 @@ public class AccountServiceImpl implements AccountService {
     public Account createAccount(Account account, AccountType accountType) {
         AccountRepository accountRepository =
                 AccountRepositoryFactory.getAccountRepository(accountType);
-        return null;
+        return accountRepository.createAccount(account);
     }
 
     public void resetPassword(String userId, String password,
